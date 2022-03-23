@@ -19,7 +19,19 @@ const renderPopup = ({
 
   advertElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} ${adjustWordForRooms(offer.rooms)} для ${offer.guests} ${adjustWordForGuests(offer.guests)}`;
   advertElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  advertElement.querySelector('.popup__features').textContent = offer.features;
+  // advertElement.querySelector('.popup__features').textContent = offer.features;
+  const advertFeatures = offer.features.slice();
+  const featuresContainer = advertElement.querySelector('.popup__features');
+  const featuresList = featuresContainer.querySelectorAll('.popup__feature');
+  featuresList.forEach((featuresListItem) => {
+    const isNecessary = advertFeatures.some(
+      (advertFeature) => featuresListItem.classList.contains(`popup__feature--${advertFeature}`),
+    );
+    if (!isNecessary) {
+      featuresListItem.remove();
+    }
+  });
+
   if (offer.description !== '') {
     advertElement.querySelector('.popup__description').textContent = offer.description;
   } else {
